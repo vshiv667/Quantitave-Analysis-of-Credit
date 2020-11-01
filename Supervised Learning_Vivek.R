@@ -1,37 +1,34 @@
 
-#1)
-#a)
+#Set working directory
 setwd("C:\\Users\\vivek_000\\Desktop\\Data Mining\\Assignment-3")
 credit_dataset <-read.csv("Credit_Dataset.csv")
 
-#b)
+#Create Label
 credit_dataset$PROFITABLE = ifelse(credit_dataset$PROFIT>=0,1,0)
 
-#c)
+#Convert Data Types
 credit_dataset$CHK_ACCT = as.factor(credit_dataset$CHK_ACCT)
 credit_dataset$SAV_ACCT = as.factor(credit_dataset$SAV_ACCT)
 credit_dataset$HISTORY = as.factor(credit_dataset$HISTORY)
 credit_dataset$JOB = as.factor(credit_dataset$JOB)
 credit_dataset$TYPE = as.factor(credit_dataset$TYPE)
 
-#d)
+#Split Data
 set.seed(12345)
 test_inst = sample(nrow(credit_dataset),0.3*nrow(credit_dataset))
 credit_test = credit_dataset[test_inst,]
 credit_rest = credit_dataset[-test_inst,]
 
-#e)
 valid_inst = sample(nrow(credit_rest),0.25*nrow(credit_rest))
 credit_valid = credit_rest[valid_inst,]
 credit_train = credit_rest[-valid_inst,]
 
-#f)
+#Logistic Regression Model
 logmodel = glm(PROFITABLE~AGE+DURATION+RENT+TELEPHONE+FOREIGN+CHK_ACCT+SAV_ACCT+HISTORY+JOB+TYPE, data = credit_train, family = "binomial")
 summary(logmodel)
 
+#Receiver operating characteristic
 library(ROCR)
-
-#a)
 
 logmodel_pred = predict(logmodel, newdata=credit_valid, type="response")
 
@@ -55,7 +52,6 @@ max_acc
 max_cutoff = slot(acc,"x.values")[[1]][index]
 max_cutoff
 
-#b)
 
 logmodel_pred2 = predict(logmodel, newdata = credit_train, type = 'response')
 
@@ -74,7 +70,7 @@ auc_train
 auc_valid = performance(pred, measure = 'auc')
 auc_valid
 
-#c)
+#Lift Curve
 
 lift_valid = performance(pred, measure = 'lift', x.measure = 'rpp')
 plot(lift_valid, col = 'blue', main="Lift")
@@ -89,7 +85,7 @@ max_lift
 df = data.frame(slot(lift_valid,"y.values"),slot(lift_valid,"x.values"))
 df
 
-#3)
+#Decision Tree
 
 library(tree)
 
@@ -130,7 +126,7 @@ plot(credit_tree_10)
 text(credit_tree_10, pretty = 1)
 
 
-#a)
+#Prediction
 
 predict_and_classify <- function(treename, pred_data, actuals, cutoff)
 {
@@ -170,7 +166,7 @@ lines(xval, yval_valid, type='b', col = 'green')
 
 
 
-#4)
+#Knn
 library(class)
 
 credit_train$CHK_ACCT = as.integer(credit_train$CHK_ACCT)
@@ -347,7 +343,7 @@ table(train.Y,credit_knn35_train)
 knn35_train_acc = (table(train.Y,credit_knn35_train)[1] + table(train.Y,credit_knn35_train)[4])/sum(table(train.Y,credit_knn35_train))
 knn35_train_acc
 
-#a) 
+#Plot metrics
 
 Xval = c(1,3,5,7,11,15,21,25,31,35)
   
@@ -360,8 +356,6 @@ plot(Xval, Yval_train, type='b', col = 'red', ylim = c(0,1), xlab="K-neighbours"
 lines(Xval, Yval_valid, type='b', col = 'green')
 
 
-
-#5)
 
 #Logistic Regression Model:
 

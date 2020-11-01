@@ -6,22 +6,22 @@ The goal in this case is to investigate how one can use this data to better mana
 
 **ROC**
 <p align="center">
-  <img  height="500" src="/roc1.PNG">
+  <img  height="500" src="/roc1.png">
 </p>
 
 **Lift**
 <p align="center">
-  <img  height="500" src="/lift1.PNG">
+  <img  height="500" src="/lift1.png">
 </p>
 
 **tree**
 <p align="center">
-  <img  height="500" src="/tree.PNG">
+  <img  height="500" src="/tree.png">
 </p>
 
 **knn**
 <p align="center">
-  <img  height="500" src="/knn.PNG">
+  <img  height="500" src="/knn.png">
 </p>
 
 ## Conclusion
